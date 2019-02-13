@@ -41,7 +41,11 @@ public class XGBoostSetupTask extends AbstractXGBoostTask<XGBoostSetupTask> {
     try {
       matrix = makeLocalMatrix();
       if (_parms._save_matrix_directory != null) {
-        File path = new File(_parms._save_matrix_directory, "matrix.part" + H2O.SELF.index()); 
+        File directory = new File(_parms._save_matrix_directory);
+        if (directory.mkdirs()) {
+          Log.debug("Created directory for matrix export: " + directory.getAbsolutePath());
+        }
+        File path = new File(directory, "matrix.part" + H2O.SELF.index()); 
         Log.info("Saving node-local portion of XGBoost training dataset to " + path.getAbsolutePath() + ".");
         matrix.saveBinary(path.getAbsolutePath());
       }

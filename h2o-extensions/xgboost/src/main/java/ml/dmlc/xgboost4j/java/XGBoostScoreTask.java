@@ -14,7 +14,7 @@ import static water.fvec.Vec.T_NUM;
 
 public class XGBoostScoreTask extends MRTask<XGBoostScoreTask> {
 
-    public enum OutputType { PREDICT, PREDICT_CONTRIB }
+    enum OutputType { PREDICT, PREDICT_CONTRIB }
     
     private final XGBoostModelInfo _sharedmodel;
     private final XGBoostOutput _output;

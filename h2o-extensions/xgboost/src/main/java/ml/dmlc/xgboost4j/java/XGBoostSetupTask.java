@@ -7,7 +7,9 @@ import water.*;
 import water.fvec.Frame;
 import water.fvec.Vec;
 import water.util.IcedHashMapGeneric;
+import water.util.Log;
 
+import java.io.File;
 import java.util.Map;
 
 /**
@@ -38,6 +40,11 @@ public class XGBoostSetupTask extends AbstractXGBoostTask<XGBoostSetupTask> {
     final DMatrix matrix;
     try {
       matrix = makeLocalMatrix();
+      if (_parms._save_matrix_directory != null) {
+        File path = new File(_parms._save_matrix_directory, "matrix.part" + H2O.SELF.index()); 
+        Log.info("Saving node-local portion of XGBoost training dataset to " + path.getAbsolutePath() + ".");
+        matrix.saveBinary(path.getAbsolutePath());
+      }
     } catch (XGBoostError xgBoostError) {
       throw new IllegalStateException("Failed XGBoost training.", xgBoostError);
     }
